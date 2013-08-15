@@ -4,6 +4,10 @@
     <meta charset=utf-8 />
     <meta name="robots" content="noindex, nofollow">
 
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
     <title>Wakeup</title>
 </head>
 <body>
