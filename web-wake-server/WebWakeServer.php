@@ -5,7 +5,7 @@ class WebWakeServer {
     /**
      * @var bool output errors and logs
      */
-    public    $verbose    = false;
+    public    $verbose    = true;
 
     /**
      * @var array list of entities to wake
@@ -37,9 +37,13 @@ class WebWakeServer {
         'verbose'     => false
     );
 
-    public function __construct($config = null){
+    protected $configFile = 'config.php';
+
+    public function __construct(){
 
         session_start();
+
+        $config = $this->getConfig();
 
         $config = array_merge($this->default, $config);
 
@@ -62,6 +66,15 @@ class WebWakeServer {
         $this->showTemplate();
     }
 
+    protected function getConfig(){
+        if(file_exists($this->configFile )){
+            $config = array();
+            require_once $this->configFile;
+            return $config;
+        } else {
+            $this->error('config file missing. rename config-sample.php to config.php');
+        }
+    }
 
 
     /**
