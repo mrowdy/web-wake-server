@@ -1,5 +1,5 @@
-# dev directory
-dev/
+# real config file
+config.php
 
 # phpStorm files
 .idea
