@@ -12,7 +12,7 @@
 </head>
 <body>
 <?php if(count($this->getSleepers()) == 0): ?>
-    <span>Sorry, no clients registered</span>
+    <span>Sorry, no client registered</span>
 <?php else: ?>
     <form id="wakeupForm" method="post" action="index.php">
     <?php foreach($this->getSleepers() as $sleeperKey => $sleeperName): ?>
