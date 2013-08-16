@@ -1,6 +1,9 @@
 # real config file
 config.php
 
+#testing
+tests/temp/
+
 # phpStorm files
 .idea
 
