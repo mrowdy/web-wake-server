@@ -90,6 +90,7 @@ class WebWakeServer {
             $this->status->loadFromJson($newStatus);
             $this->status->save();
         }
+        die();
     }
 
     /**
