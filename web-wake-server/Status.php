@@ -38,6 +38,19 @@ class Status {
     }
 
     /**
+     * @param $data populate from json
+     */
+    public function loadFromJson($data){
+        if(isset($data['sleepers'])){
+            $this->sleepers =$data['sleepers'];
+        }
+
+        if(isset($data['nextWakeup'])){
+            $this->nextWakeup = $data['nextWakeup'];
+        }
+    }
+
+    /**
      * check if file exist or creates it
      */
     protected function checkFile(){
@@ -95,12 +108,6 @@ class Status {
      */
     protected function loadFromFile(){
         $data = json_decode(file_get_contents($this->filePath), true);
-        if(isset($data['sleepers'])){
-            $this->sleepers =$data['sleepers'];
-        }
-
-        if(isset($data['nextWakeup'])){
-            $this->nextWakeup = $data['nextWakeup'];
-        }
+        $this->loadFromJson($data);
     }
 }

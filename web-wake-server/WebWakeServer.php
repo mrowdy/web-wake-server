@@ -1,36 +1,24 @@
 <?php
 
+require_once 'Status.php';
+require_once 'CsrfSave.php';
+
 class WebWakeServer {
 
     /**
      * @var bool output errors and logs
      */
-    public    $verbose    = true;
-
-    /**
-     * @var array list of entities to wake
-     */
-    protected $sleepers   = array();
-
-    /**
-     * @var string location of status file
-     */
-    protected $statusFile = '';
-
-    /**
-     * @var string name of template
-     */
-    protected $template   = '';
+    public $verbose = true;
 
     /**
      * @var string stores CSRF hash
      */
-    protected $csrf       = '';
+    protected $csrf = '';
 
     /**
      * @var array default options
      */
-    protected $default    = array(
+    protected $default = array(
         'sleepers'    => array(),
         'status-file' => 'status.json',
         'template'    => 'classic',
@@ -39,30 +27,22 @@ class WebWakeServer {
 
     protected $configFile = 'config.php';
 
+    protected $status;
+    protected $csrfSave;
+    protected $config = array();
+
+
     public function __construct(){
 
         session_start();
-
         $config = $this->getConfig();
+        $this->config = array_merge($this->default, $config);
+        $this->parseConfig($this->config);
+        $this->status = new Status($this->config['status-file']);
+        $this->csrfSave = new CsrfSave();
+        $this->checkActions();
 
-        $config = array_merge($this->default, $config);
-
-        $this->parseConfig($config);
-
-        if($this->isStatusRequest()){
-            $this->echoStatus();
-        }
-
-        if($this->isStatusUpdate()){
-            $this->statusUpdate();
-        }
-
-        else if($this->isSent()){
-            $this->checkCSRF();
-            $this->processForm();
-        }
-
-        $this->setCSRF();
+        $this->csrfSave->setCSRF();
         $this->showTemplate();
     }
 
@@ -76,39 +56,6 @@ class WebWakeServer {
         }
     }
 
-
-    /**
-     * generate CSRF hash
-     */
-    protected function setCSRF(){
-        $csrf = md5($_SERVER['HTTP_USER_AGENT']);
-        $_SESSION['csrf'] = $csrf;
-        $this->csrf = $csrf;
-    }
-
-    /**
-     * @return string get previos generated CSRF hash
-     */
-    public function getCSRF(){
-        return $_SESSION['csrf'];
-    }
-
-    /**
-     * comprare post CSRF hash with session CSRF hash
-     */
-    protected function checkCSRF(){
-        if($_POST['csrf'] != $_SESSION['csrf']){
-            $this->error('invalid csrf');
-        }
-    }
-
-    /**
-     * @return array get list of entities to wake
-     */
-    public function getSleepers(){
-        return $this->sleepers;
-    }
-
     /**
      * Parse config array
      */
@@ -120,116 +67,56 @@ class WebWakeServer {
         if(isset($config['verbose'])){
             $this->verbose = $config['verbose']?true:false;
         }
+    }
 
-        if(isset($config['sleepers']) && count($config['sleepers']) > 0){
-            $this->sleepers = $config['sleepers'];
-        } else {
-            $this->error('no sleepers specified');
-        }
-
-        if(isset($config['status-file'])){
-            $this->statusFile = $config['status-file'];
-            if(!file_exists($this->statusFile)){
-                $this->error('status file missing');
+    protected function checkActions(){
+        if(isset($_GET['action'])){
+            if($_GET['action'] == 'update-status'){
+                $this->updateStatus();
             }
-            if(!is_writeable($this->statusFile)){
-                $this->error('can\'t write to statusFile');
+            if($_GET['action'] == 'get-status'){
+                $this->getStatus();
             }
-        } else {
-            $this->error('no statusFile specified');
-        }
-
-        if(isset($config['template'])){
-            $this->template = basename($config['template']);
-        } else {
-            $this->error('no template specified');
-        }
-    }
-
-    /**
-     * @return bool wakeup form is sent
-     */
-    protected function isSent(){
-        if(isset($_POST['send']) && $_POST['send'] == 1){
-            return true;
-        }
-        return false;
-    }
-
-
-
-    /**
-     * process form and save to status
-     */
-    protected function processForm(){
-        if(isset($_POST['sleeper']) && array_key_exists($_POST['sleeper'], $this->sleepers)){
-            $sleeper = $_POST['sleeper'];
-
-            $status = $this->loadStatus();
-            if(!$status instanceof stdClass){
-                $status = new stdClass();
+        } elseif(isset($_POST['action'])){
+            if($_POST['action'] == 'send-view'){
+                $this->processView();
             }
-            $status->$sleeper = '1';
-            $this->saveStatus($status);
+        }
+    }
 
-        } else {
-            $this->error('invalid sleeper');
+    protected function updateStatus(){
+        if(isset($_POST['status'])){
+            $newStatus = json_decode($_POST['status'], true);
+            $this->status->loadFromJson($newStatus);
+            $this->status->save();
         }
     }
 
     /**
-     * @return stdClass content of status file
+     * echos status-file as json
      */
-    protected function loadStatus(){
-        return json_decode(file_get_contents($this->statusFile));
-    }
-
-    /**
-     * save status to status file
-     * @param $string
-     */
-    protected function saveStatus($string){
-        file_put_contents($this->statusFile, json_encode($string));
-    }
-
-    /**
-     * @return bool status file requested?
-     */
-    protected function isStatusRequest(){
-        if(isset($_GET['get-status']) && $_GET['get-status'] == 1){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * output status file
-     */
-    protected function echoStatus(){
+    protected function getStatus(){
         header('Content-type: application/json');
-        echo file_get_contents($this->statusFile);
+        echo file_get_contents($this->config['status-file']);
         die();
     }
 
+
     /**
-     * @return bool received new status
+     * Process sent view form
      */
-    protected function isStatusUpdate(){
-        if(isset($_GET['update-status']) && $_GET['update-status'] == 1){
-            return true;
+    protected function processView(){
+        if(isset($_POST['sleeper']) && array_key_exists($_POST['sleeper'], $this->status->sleepers)){
+            $this->status->sleepers[$_POST['sleeper']] = 1;
         }
-        return false;
+        $this->status->save();
     }
 
     /**
-     * save new status
+     * @return array get list of entities to wake
      */
-    protected function statusUpdate(){
-        $newStatus = isset($_POST['new-status'])?$_POST['new-status']:false;
-        if($newStatus){
-            file_put_contents($this->statusFile, $newStatus);
-        }
-        $this->error();
+    protected function getSleepers(){
+        return $this->status->sleepers;
     }
 
     /**
@@ -246,7 +133,7 @@ class WebWakeServer {
      * output template
      */
     protected function showTemplate(){
-        $templateFile = sprintf('%s/templates/%s/%s.php', __DIR__, $this->template, $this->template);
+        $templateFile = sprintf('%s/templates/%s/%s.php', __DIR__, $this->config['template'], $this->config['template']);
         if(file_exists($templateFile)){
             include $templateFile;
         }
