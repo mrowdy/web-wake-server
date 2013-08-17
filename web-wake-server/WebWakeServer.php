@@ -22,7 +22,8 @@ class WebWakeServer {
         'sleepers'    => array(),
         'status-file' => 'status.json',
         'template'    => 'classic',
-        'verbose'     => false
+        'verbose'     => false,
+        'crypt-key'   => '',
     );
 
     protected $configFile = 'config.php';
@@ -38,7 +39,7 @@ class WebWakeServer {
         $config = $this->getConfig();
         $this->config = array_merge($this->default, $config);
         $this->parseConfig($this->config);
-        $this->status = new Status($this->config['status-file']);
+        $this->status = new Status($this->config['status-file'], $this->config['crypt-key']);
         $this->csrfSave = new CsrfSave();
         $this->checkActions();
 
@@ -139,4 +140,6 @@ class WebWakeServer {
             include $templateFile;
         }
     }
+
+
 }

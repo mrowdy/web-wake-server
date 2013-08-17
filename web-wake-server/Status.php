@@ -17,8 +17,14 @@ class Status {
      */
     protected $filePath = '';
 
-    public function __construct($filePath){
+    /**
+     * @var string stores encryption key
+     */
+    protected $encryptionKey = '';
+
+    public function __construct($filePath, $key){
         $this->filePath = $filePath;
+        $this->encryptionKey = $key;
         $this->checkFile();
         $this->loadFromFile();
     }
@@ -99,7 +105,7 @@ class Status {
      * save to file
      */
     protected function saveToFile(){
-        $json = json_encode($this);
+        $json = $this->encrypt(json_encode($this));
         file_put_contents($this->filePath, $json);
     }
 
@@ -107,7 +113,72 @@ class Status {
      * populate this from file
      */
     protected function loadFromFile(){
-        $data = json_decode(file_get_contents($this->filePath), true);
+        $data = json_decode($this->decrypt(file_get_contents($this->filePath)), true);
         $this->loadFromJson($data);
+    }
+
+    protected function encrypt($msg){
+        if ( ! $td = mcrypt_module_open('rijndael-256', '', 'ctr', '') )
+            return false;
+
+        $key = $this->encryptionKey;
+        $msg = serialize($msg);
+        $iv = mcrypt_create_iv(32, MCRYPT_RAND);
+
+        if ( mcrypt_generic_init($td, $key, $iv) !== 0 )
+            return false;
+
+        $msg = mcrypt_generic($td, $msg);
+        $msg = $iv . $msg;
+        $mac = $this->pbkdf2($msg, $key, 1000, 32);
+        $msg .= $mac;
+
+        mcrypt_generic_deinit($td);
+        mcrypt_module_close($td);
+
+        return $msg;
+    }
+
+    public function decrypt( $msg ) {
+
+        if ( ! $td = mcrypt_module_open('rijndael-256', '', 'ctr', '') )
+            return false;
+
+        $key = $this->encryptionKey;
+        $iv = substr($msg, 0, 32);
+        $mo = strlen($msg) - 32;
+        $em = substr($msg, $mo);
+        $msg = substr($msg, 32, strlen($msg)-64);
+        $mac = $this->pbkdf2($iv . $msg, $key, 1000, 32);
+
+        if ( $em !== $mac )
+        return false;
+
+        if ( mcrypt_generic_init($td, $key, $iv) !== 0 )
+        return false;
+
+        $msg = mdecrypt_generic($td, $msg);
+        $msg = unserialize($msg);
+        mcrypt_generic_deinit($td);
+        mcrypt_module_close($td);
+
+        return $msg;
+    }
+
+    public function pbkdf2( $p, $s, $c, $kl, $a = 'sha256' ) {
+
+        $hl = strlen(hash($a, null, true));
+        $kb = ceil($kl / $hl);
+        $dk = '';
+
+        for ( $block = 1; $block <= $kb; $block ++ ) {
+
+            $ib = $b = hash_hmac($a, $s . pack('N', $block), $p, true);
+            for ( $i = 1; $i < $c; $i ++ )
+            $ib ^= ($b = hash_hmac($a, $b, $p, true));
+            $dk .= $ib;
+        }
+
+        return substr($dk, 0, $kl);
     }
 }
