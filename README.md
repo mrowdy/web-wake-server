@@ -1,7 +1,10 @@
-web-wake-server
+WebWake Server - DEV
 ================================
 
-WebWake is a web interface for wake-on-lan based on php.
+With WebWake you can boot your computers at home over the internet.
+The server only handles the web-interface.
+Only your client knows about your computers at home.
+Client - Server communication is encryptet.
 
 Usage
 -------------------------
