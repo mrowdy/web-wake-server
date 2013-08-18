@@ -6,7 +6,7 @@ WebWake is a web interface for wake-on-lan based on php.
 Usage
 -------------------------
 
-    Create config.php from config-sample.php, include WebWakeServer.php and create an instance
+Create config.php from config-sample.php, include WebWakeServer.php and create an instance
 
     require_once 'web-wake-server/WebWakeServer.php';
     $wakeup = new WebWakeServer();
