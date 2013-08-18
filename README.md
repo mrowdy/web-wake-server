@@ -39,13 +39,13 @@ Options:
     <td>template</td><td>currently only 'classic'</td><td>classic</td>
   </tr>
   <tr>
-    <td>verbose</td><td>Show messages</td><td>false</td>
+    <td>verbose</td><td>show messages</td><td>false</td>
   </tr>
   <tr>
-    <td>crypt-key</td><td>Key for encrypt/decrypt (has ti be the same on client)</td><td></td>
+    <td>crypt-key</td><td>key for encrypt/decrypt (has to be the same on client)</td><td></td>
   </tr>
   <tr>
-    <td>debug</td><td>Debug mode disables encryption</td><td>false</td>
+    <td>debug</td><td>debug mode disables encryption</td><td>false</td>
   </tr>
 
 
