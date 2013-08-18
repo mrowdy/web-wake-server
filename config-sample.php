@@ -5,4 +5,6 @@ $config = array(
     'status-file' => 'status.json',
     'template' => 'classic',
     'verbose' => true,
+    'crypt-key'   => '!§"$%&(%$§§$*&ÖÜ%§!46',
+    'debug' => false,
 );
