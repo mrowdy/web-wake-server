@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Status.php';
+require_once 'Crypt.php';
 require_once 'CsrfSave.php';
 
 class WebWakeServer {
@@ -67,6 +68,10 @@ class WebWakeServer {
 
         if(isset($config['verbose'])){
             $this->verbose = $config['verbose']?true:false;
+        }
+
+        if(isset($config['crypt-key'])){
+            Crypt::setKey($config['crypt-key']);
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 require_once '../Status.php';
+require_once '../Crypt.php';
 
 class StatusTest extends PHPUnit_Framework_TestCase {
 
