@@ -7,6 +7,11 @@ require_once 'CsrfSave.php';
 class WebWakeServer {
 
     /**
+     * @var bool debug mode
+     */
+    public $debug = false;
+
+    /**
      * @var bool output errors and logs
      */
     public $verbose = true;
@@ -25,6 +30,7 @@ class WebWakeServer {
         'template'    => 'classic',
         'verbose'     => false,
         'crypt-key'   => '',
+        'debug'       => false,
     );
 
     protected $configFile = 'config.php';
@@ -40,6 +46,7 @@ class WebWakeServer {
         $config = $this->getConfig();
         $this->config = array_merge($this->default, $config);
         $this->parseConfig($this->config);
+        Crypt::setDebug($this->config['debug']);
         $this->status = new Status($this->config['status-file'], $this->config['crypt-key']);
         $this->csrfSave = new CsrfSave();
         $this->checkActions();
@@ -64,6 +71,10 @@ class WebWakeServer {
     protected function parseConfig($config){
         if(!is_array($config)){
             $this->error('config array needed');
+        }
+
+        if(isset($config['debug'])){
+            $this->debug = $config['debug']?true:false;
         }
 
         if(isset($config['verbose'])){
