@@ -5,7 +5,7 @@ class Crypt {
     /**
      * @var bool stops encrypting
      */
-    protected static $debug = true;
+    protected static $debug = false;
 
     /**
      * @var string cryptkey

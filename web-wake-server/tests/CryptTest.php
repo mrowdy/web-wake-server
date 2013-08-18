@@ -4,6 +4,11 @@ require_once '../Crypt.php';
 
 class CryptTest extends PHPUnit_Framework_TestCase {
 
+    public function tearDown(){
+        parent::tearDown();
+        Crypt::setDebug(false);
+    }
+
     public function testCrypt_TestEncryptDebugOn_NoEncrypt(){
         $message = 'Test';
         Crypt::setDebug(true);
