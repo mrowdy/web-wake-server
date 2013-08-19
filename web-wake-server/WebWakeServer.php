@@ -137,6 +137,14 @@ class WebWakeServer {
         return $this->status->sleepers;
     }
 
+
+    /**
+     * @return array time to next wakeup
+     */
+    protected function getNextWakeup(){
+        return $this->status->nextWakeup;
+    }
+
     /**
      * @param $message store new error
      */

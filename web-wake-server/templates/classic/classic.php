@@ -33,7 +33,9 @@
     <?php endif;?>
 
 </div>
-
+<div id="footer">
+    <div class="wrap">next wakeup in <span><?php echo $this->getNextWakeup() - time(); ?></span> seconds</div>
+</div>
 <script type="text/javascript" src="/web-wake-server/templates/classic/classic.js"></script>
 </body>
 </html>
