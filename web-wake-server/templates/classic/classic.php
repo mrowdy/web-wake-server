@@ -3,7 +3,10 @@
 <head>
     <meta charset=utf-8 />
     <meta name="robots" content="noindex, nofollow">
-
+    <meta http-equiv="cleartype" content="on">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet/less" type="text/css" href="/web-wake-server/templates/classic/less/classic.less" />
