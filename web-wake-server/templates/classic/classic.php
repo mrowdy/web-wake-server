@@ -3,6 +3,9 @@
 <head>
     <meta charset=utf-8 />
     <meta name="robots" content="noindex, nofollow">
+
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet/less" type="text/css" href="/web-wake-server/templates/classic/less/classic.less" />
     <script src="/web-wake-server/templates/classic/less.js" type="text/javascript"></script>
 
@@ -13,28 +16,36 @@
     <title>WebWake - Classic</title>
 </head>
 <body>
-<div id="header">
-    <header  class="wrap">
-        <h1>WebWake</h1>
-    </header>
-</div>
-<div id="content" class="wrap">
-    <?php if(count($this->getSleepers()) == 0): ?>
-        <span>Sorry, no client registered</span>
-    <?php else: ?>
-        <form id="wakeupForm" method="post" action="index.php">
-            <?php foreach($this->getSleepers() as $sleeperKey => $sleeperName): ?>
-                <button class="submit sleeper" type="button" name="sleeper" value="<?php echo $sleeperKey; ?>"><?php echo ucfirst($sleeperKey); ?></button>
-            <?php endforeach; ?>
-            <input type="hidden" name="csrf" value="<?php echo $this->csrfSave->getCSRF() ?>" />
-            <input id="sleeper" type="hidden" name="sleeper" value="" />
-            <input type="hidden" name="action" value="send-view" />
-        </form>
-    <?php endif;?>
+<div id="content-wrap">
 
-</div>
-<div id="footer">
-    <div class="wrap">next wakeup in <span><?php echo $this->getNextWakeup() - time(); ?></span> seconds</div>
+
+    <div id="content">
+
+        <?php if(count($this->getSleepers()) == 0): ?>
+            <span>Sorry, no client registered</span>
+        <?php else: ?>
+            <form id="wakeupForm" method="post" action="index.php">
+                <div class="grid-row grid-group">
+                    <?php foreach($this->getSleepers() as $sleeperKey => $sleeperName): ?>
+                        <div class="grid-col span_1_of_3">
+                            <div class="sleeper">
+                                <h2><?php echo ucfirst($sleeperKey); ?></h2>
+                                <button class="submit" type="button" name="sleeper" value="<?php echo $sleeperKey; ?>">wakeup</button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <input type="hidden" name="csrf" value="<?php echo $this->csrfSave->getCSRF() ?>" />
+                <input id="sleeper" type="hidden" name="sleeper" value="" />
+                <input type="hidden" name="action" value="send-view" />
+            </form>
+
+
+
+
+
+        <?php endif;?>
+    </div>
 </div>
 <script type="text/javascript" src="/web-wake-server/templates/classic/classic.js"></script>
 </body>

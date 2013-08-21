@@ -1,50 +1,54 @@
-body, head {
+* {
+  .box-sizing();
+}
+
+body, html {
   margin: 0px;
   padding: 0px;
+  height: 100%;
+  width: 100%;
 }
 
 body {
+  font-size: 20px;
+  line-height: 36px;
   background-color: @color1;
-  font-size: 16px;
-  line-height: 24px;
+  color: @color5;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 article {
   max-width: 944px;
   margin: auto;
 }
 h1 {
-  font-size: 116px;
-  line-height: 120px;
-  margin-top: 24px;
-  margin-bottom: 48px;
+  font-size: 131px;
+  line-height: 144px;
+  margin-top: 36px;
+  margin-bottom: 72px;
 }
 h2 {
-  font-size: 43px;
-  line-height: 48px;
-  margin-top: 48px;
-  margin-bottom: 24px;
+  font-size: 51px;
+  line-height: 72px;
+  margin-top: 72px;
+  margin-bottom: 36px;
 }
 h3 {
-  font-size: 26px;
-  line-height: 48px;
-  margin-top: 24px;
+  font-size: 32px;
+  line-height: 36px;
+  margin-top: 36px;
   margin-bottom: 0px;
 }
 p, ul {
   margin-top: 0px;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 }
 small, aside {
-  font-size: 10px;
+  font-size: 13px;
 }
 
-.wrap {
-  clear: both;
+#content-wrap {
   width: 100%;
-  max-width: @max-width;
-  margin: 0 auto;
-}
-
-#content {
-  margin-top: 20px;
+  min-height: 100%;
+  background-color: @color2;
+  .clearfix();
 }

@@ -1,19 +1,17 @@
 .sleeper {
-  display: block;
-  float: left;
-  margin: 20px;
-  padding: 20px;
-  width: 150px;
-  height: 150px;
-  color: @color3;
-  font-weight: bold;
-  font-size: 25px;
-  border: none;
-  background-color: @color4;
+  width: 100%;
+  height: 280px;
+  background-color: @color3;
+  border: 1px solid @color4;
+  text-align: center;
+  overflow: hidden;
+  padding: 25px;
+  overflow: hidden;
+}
 
-  &:hover {
-    background-color: @color3;
-    color: @color4;
+@media screen and (max-width: @oneRowBrakepoint){
+  .sleeper {
+    max-width: 280px;
+    margin: 0 auto 25px;
   }
-
 }
