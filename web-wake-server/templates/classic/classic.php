@@ -31,10 +31,20 @@
                 <div class="grid-row grid-group">
                     <?php foreach($this->getSleepers() as $sleeperKey => $sleeperName): ?>
                         <div class="grid-col span_1_of_3">
-                            <div class="sleeper">
-                                <h2><?php echo ucfirst($sleeperKey); ?></h2>
-                                <button class="submit" type="button" name="sleeper" value="<?php echo $sleeperKey; ?>">wakeup</button>
+                            <div class="sleeperWrap">
+                                <div id="<?php echo $sleeperKey; ?>" class="sleeper">
+                                    <div class="sleeperFace faceFront">
+                                        <h2><?php echo ucfirst($sleeperKey); ?></h2>
+                                        <button class="submit" type="button" name="sleeper" value="<?php echo $sleeperKey; ?>">wakeup</button>
+                                    </div>
+                                    <div class="sleeperFace faceBottom">
+                                        12345
+                                    </div>
+                                </div>
                             </div>
+
+
+
                         </div>
                     <?php endforeach; ?>
                 </div>

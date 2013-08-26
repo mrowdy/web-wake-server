@@ -10,3 +10,38 @@
   &:before { content: ''; display: block; }
   &:after { content: ''; display: table; clear: both; }
 }
+
+.transform(@string){
+  -webkit-transform: @string;
+  -moz-transform: 	 @string;
+  -ms-transform: 	 @string;
+  -o-transform: 	 @string;
+}
+
+.transform-style (@style) {
+  -webkit-transform-style: @style;
+  -moz-transform-style:    @style;
+  -ms-transform-style:     @style;
+  -o-transform-style:      @style;
+}
+
+.perspective (@value: 1000) {
+  -webkit-perspective: 	@value;
+  -moz-perspective: 	@value;
+  -ms-perspective: 	    @value;
+  perspective: 		    @value;
+}
+
+.translate3d (@x, @y: 0, @z: 0) {
+  -webkit-transform: translate3d(@x, @y, @z);
+  -moz-transform: 	 translate3d(@x, @y, @z);
+  -ms-transform: 	 translate3d(@x, @y, @z);
+  -o-transform: 	 translate3d(@x, @y, @z);
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition:    @transition;
+  -ms-transition:     @transition;
+  -o-transition:      @transition;
+}

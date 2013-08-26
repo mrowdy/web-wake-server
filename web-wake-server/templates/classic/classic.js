@@ -24,7 +24,12 @@
     }
 
     var onSubmitClick = function(evt){
-        $sleeper.value = this.value;
+        var sleeperKey =  this.value;
+        $sleeper.value = sleeperKey;
+
+        var $sleeperEl = document.querySelector('#' + sleeperKey);
+        console.log($sleeperEl);
+
         $form.submit();
     }
 
