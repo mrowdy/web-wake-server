@@ -8,22 +8,16 @@
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet" type="text/css">
-
     <link rel="stylesheet/less" type="text/css" href="/web-wake-server/templates/classic/less/classic.less" />
     <script src="/web-wake-server/templates/classic/less.js" type="text/javascript"></script>
-
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
     <title>WebWake - Classic</title>
 </head>
 <body>
 <div id="content-wrap">
-
-
     <div id="content">
-
         <?php if(count($this->getSleepers()) == 0): ?>
             <span>Sorry, no client registered</span>
         <?php else: ?>
@@ -42,21 +36,12 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                     <?php endforeach; ?>
                 </div>
                 <input type="hidden" name="csrf" value="<?php echo $this->csrfSave->getCSRF() ?>" />
-                <input id="sleeper" type="hidden" name="sleeper" value="" />
                 <input type="hidden" name="action" value="send-view" />
             </form>
-
-
-
-
-
         <?php endif;?>
     </div>
 </div>
