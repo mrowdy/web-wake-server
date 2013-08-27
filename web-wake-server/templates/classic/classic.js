@@ -2,16 +2,27 @@
 
     var instance = this,
         $submitButtons = document.querySelectorAll('.submit'),
-        $form = document.querySelector('#wakeupForm');
+        $form = document.querySelector('#wakeupForm'),
+        $clockList = document.querySelectorAll('.clock');
 
     var init = function(){
         clickBindings();
-
+        setInterval(updateClock, 1000);
     };
 
     var clickBindings = function(){
         for(var i = 0; i < $submitButtons.length; i++){
             addEvent($submitButtons[i], 'click', onSubmitClick);
+        }
+    }
+
+    var updateClock = function(){
+        for(var i = 0; i < $clockList.length; i++){
+            var clockTime = $clockList[i].getAttribute('data-wakeup');
+            $clockList[i].setAttribute('data-wakeup', clockTime - 1);
+            if(clockTime <= 0){
+                location.reload(true);
+            }
         }
     }
 
@@ -28,10 +39,14 @@
                    '&sleeper=' + sleeperKey +
                    '&action=send-view';
 
-        console.log(data);
         request('index.php', function(){}, data);
-
+        initClock(sleeperKey);
         showBottom(sleeperKey);
+    }
+
+    var initClock = function(sleeperKey){
+        $clock = document.querySelector('#' + sleeperKey + ' .clock');
+        console.log($clock);
     }
 
     var showBottom = function(sleeperKey){
@@ -124,3 +139,10 @@
     ];
 
 })('ajax');
+
+clock = function($el){
+
+    var $clock = $el,
+        angle;
+
+}

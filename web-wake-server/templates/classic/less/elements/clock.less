@@ -3,4 +3,52 @@
   height: @sleeperHeight;
   margin: auto;
   padding: 0;
+  position: relative;
+  overflow: hidden;
+  background-color: inherit;
+
+  .rotate {
+    position: absolute;
+    width: @sleeperHeight;
+    height: @sleeperHeight;
+    top: 0;
+    left: 0;
+
+    &.right{
+    }
+  }
+
+  .bg,
+  .front {
+    width: @sleeperHeight/2;
+    height: @sleeperHeight;
+    background-color: inherit;
+    position: absolute;
+    top: 0;
+  }
+
+  .bg {
+    &.left{
+      left:0;
+      background:url(../clock.png) no-repeat left top;
+    }
+    &.right{
+      left:@sleeperHeight/2;
+      background:url(../clock.png) no-repeat right top;
+    }
+  }
+
+  .display{
+      position: absolute;
+      width: @sleeperHeight;
+      z-index:20;
+      text-align: center;
+      top: @sleeperHeight/3;
+      left: 0;
+
+      .time {
+        font-size: 30px;
+      }
+   }
+
 }

@@ -32,8 +32,18 @@
                                         <button class="submit" type="button" name="sleeper" value="<?php echo $sleeperKey; ?>">wakeup</button>
                                     </div>
                                     <div class="sleeperFace faceBottom">
-                                        <div class="clock">
-
+                                        <div class="clock" data-wakeup="<?php echo $this->getNextWakeup() - time(); ?>">
+                                            <div class="display">
+                                                <strong><?php echo $sleeperKey; ?></strong>
+                                                <div class="time"><?php echo date('i:s',  $this->getNextWakeup() - time()); ?></div>
+                                            </div>
+                                            <div class="front right"></div>
+                                            <div class="rotate left">
+                                                <div class="bg left"></div>
+                                            </div>
+                                            <div class="rotate right">
+                                                <div class="bg right"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
