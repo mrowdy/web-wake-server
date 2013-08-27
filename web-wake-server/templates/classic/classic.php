@@ -32,7 +32,9 @@
                                         <button class="submit" type="button" name="sleeper" value="<?php echo $sleeperKey; ?>">wakeup</button>
                                     </div>
                                     <div class="sleeperFace faceBottom">
-                                        12345
+                                        <div class="clock">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>

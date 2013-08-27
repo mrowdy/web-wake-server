@@ -1,18 +1,14 @@
-
-
 .sleeperWrap {
-  @height: 280px;
   .perspective(600px);
-  .transform(scale(0.7));
-
   .sleeper {
 
     width: 100%;
-    height: @height;
+    height: @sleeperHeight;
     position: relative;
 
     .transform-style(preserve-3d);
     .transform(rotateX(0deg));
+    .transform-origin(center, center, -@sleeperHeight/2);
     .transition(all 1s);
 
     &.showBottom {
@@ -30,12 +26,9 @@
       padding: 25px;
       overflow: hidden;
 
-      &.faceFront {
-        .transform(translate3d(0, 0, @height/2));
-      }
-
       &.faceBottom {
-        .transform(rotateX(-90deg) translate3d(0, 0, @height/2));
+        .transform(rotateX(-90deg) translate3d(0, @sleeperHeight/2, @sleeperHeight/2));
+        padding: 0;
       }
     }
   }
