@@ -47,6 +47,10 @@
     var initClock = function(sleeperKey){
         $clock = document.querySelector('#' + sleeperKey + ' .clock');
         console.log($clock);
+
+        clock = new Clock($clock);
+
+
     }
 
     var showBottom = function(sleeperKey){

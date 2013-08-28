@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900" rel="stylesheet" type="text/css">
     <link rel="stylesheet/less" type="text/css" href="/web-wake-server/templates/classic/less/classic.less" />
+    <script src="/web-wake-server/templates/classic/clock.js" type="text/javascript"></script>
     <script src="/web-wake-server/templates/classic/less.js" type="text/javascript"></script>
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
